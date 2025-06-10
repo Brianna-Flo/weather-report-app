@@ -1,0 +1,13 @@
+.day {
+  border: 1px solid grey;
+  text-align: center;
+  width: 100%;
+}
+
+.cold {
+    color: blue;
+}
+
+.hot {
+    color: red;
+}
