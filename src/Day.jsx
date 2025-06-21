@@ -11,9 +11,9 @@ function Day ({date, temperature, weather, icon}) {
   return (  
     <div className="day">
         <p className="date">{date}</p>
-        <p className={`temperature ${temperatureClass}`}>{temperature}°</p>
-        <p className="weather">{weather}</p>
         <img className="weather-icon" src={`http://openweathermap.org/img/wn/${icon}.png`} alt={weather} />
+        <p className="weather">{weather}</p>
+        <p className={`temperature ${temperatureClass}`}>{temperature}°</p>
     </div>
   );
 }

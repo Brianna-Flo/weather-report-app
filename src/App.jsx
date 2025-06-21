@@ -5,7 +5,7 @@ import SearchForm from './SearchForm';
 import Forecast from './Forecast';
 import data from './data/data.js';
 // import use state hook from react library
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
 function App() {
@@ -14,13 +14,35 @@ function App() {
   // takes in original state as argument and returns array
   // arr[0]: current state value
   // arr[1]: function to update value
-  const[city, setCity] = useState('Menlo Park');
-  // const[data, setData] = useState({});
+  const[city, setCity] = useState('Manhatten');
+  const[weatherData, setWeatherData] = useState(data);
 
   // handle search when city changes
   const handleCityChange = (newCity) => {
     setCity(newCity);
   }
+
+// fetching data
+// asynch (something that doesnt finish immediately) allows you to use await within function (ex load data from server, wait for user input, etc)
+  const fetchData = async () => {
+    try {
+      const apiKey = import.meta.env.VITE_APP_API_KEY;
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch weather data');
+      }
+      const newData = await response.json();
+      setWeatherData(newData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  // fetch data when city state changes
+  useEffect(() => {
+    if (city) {
+      fetchData();
+    }
+  }, [city]);
 
   return (
     <div className="App">
@@ -28,8 +50,7 @@ function App() {
         <h1 className="title">Weather Report</h1>
         <SearchForm onCityChange={handleCityChange} />
       </header>
-        <p className="location"> {`Location: ${city}`}</p>
-        <Forecast forecastData={data}/>
+        <Forecast forecastData={weatherData}/>
     </div>
   );
 }

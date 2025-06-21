@@ -1,5 +1,10 @@
 .forecast-container {
   display: flex;
-  gap: 5%;
-  margin: 20px;
+  flex-direction: column;
+}
+
+.forecast-cards {
+    display: flex;
+    gap: 5%;
+    margin: 20px;
 }
